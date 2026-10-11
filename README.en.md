@@ -12,26 +12,26 @@ A lightweight mathematical research plugin for Codex. The main conversation lead
 - Preserve exact dependencies, proofs, computation scripts and bound results in Git history.
 - Explore related and stronger literature results. Zotero is optional.
 
-`AI_REVIEWED` is an AI review status, not formal proof certification. Git integrity checks support detection and recovery; they are not operating-system isolation.
-
 ## Install on Windows
 
 Requirements: Python 3.13, Git, Codex CLI with `codex plugin add`, and Codex desktop for research. Obsidian and Zotero are optional.
 
-Download and extract the Windows ZIP from Releases. Open PowerShell in the extracted directory:
+Download and extract `orpheus-0.1.0-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
 
 ```powershell
 $target = Join-Path $env:USERPROFILE "Orpheus"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\install_portable.ps1" -InstallPath $target
 ```
 
-The installer creates a virtual environment, downloads pinned dependencies, initializes a fresh local Fact history and installs `orpheus@personal`. It refuses nonempty targets and existing same-name plugins. Start a new Codex conversation in your own research project and ask it to use Orpheus for your problem.
+Choose a separate empty directory for the installation. The installer creates a virtual environment, downloads pinned dependencies, initializes a fresh local Fact history and installs `orpheus@personal`. Start a new Codex conversation in your own research project and ask it to use Orpheus for your problem.
 
-You can also install from a downloaded source ZIP. Keep the public source checkout separate from the installation and research project. Notes live in the project's `Orpheus研究/`, literature records in `papers/`, and accepted Facts in the installation directory.
+You can also install from a downloaded source ZIP using the same command.
 
-No remote is configured by default. To back up research, supply your own empty private repository using `-RemoteUrl`, `-GitName` and `-GitEmail`. Never use the public source repository as the remote for private Facts. See the Chinese [advanced installation guide](docs/安装便携包.md) for parallel installations and upgrade boundaries.
+## Notes and Facts
 
-This release uses a local stdio server and an installer; adding a GitHub marketplace alone does not initialize the Python environment or Fact storage. Linux/macOS installation and official directory distribution have not been validated.
+Notes live in the project's `Orpheus研究/`, literature records in `papers/`, and candidates, review reports and accepted Facts in the installation directory. A local stdio MCP service manages Facts; the installer configures its environment and paths.
+
+Research materials are stored locally. For remote backups, supply your own empty private repository using `-RemoteUrl`, `-GitName` and `-GitEmail`. See the Chinese [advanced installation guide](docs/安装便携包.md) for upgrades, parallel installations and removal.
 
 ## Development
 
@@ -43,6 +43,8 @@ py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe scripts/package_release.py
 ```
 
-Tests use synthetic data and temporary repositories. No real-model mathematical benchmark is included. Contributions are welcome; follow [CONTRIBUTING.md](CONTRIBUTING.md) and do not attach private research or credentials.
+The release script runs tests, packages the source files and generates file checksums. See [release validation](docs/Release-validation.md) for the validation record.
+
+Feedback and contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Licensed under [MIT](LICENSE).
