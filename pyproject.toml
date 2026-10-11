@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orpheus-fact"
+version = "0.1.0"
+description = "A small admission boundary for Codex mathematical research"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+dependencies = ["mcp==2.2.0"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[tool.setuptools.packages.find]
+where = ["service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["service"]
+addopts = "-p no:cacheprovider"

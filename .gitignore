@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.runtime/
+*.sqlite*
+*.sqlite-shm
+*.sqlite-wal
+secrets/
+**/accounts.dpapi
+**/research-token.txt
+.env
+dist/
+build/

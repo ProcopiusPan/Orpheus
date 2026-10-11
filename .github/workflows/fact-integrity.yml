@@ -1,0 +1,38 @@
+name: Tests and Fact integrity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install project and test dependencies
+        run: python -m pip install -e ".[test]"
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Check Markdown conventions
+        run: python scripts/check_markdown.py . --output "$RUNNER_TEMP/markdown-check.json"
+      - name: Audit canonical Fact change and last-known-good evidence
+        if: ${{ hashFiles('facts/MANIFEST.json') != '' }}
+        env:
+          FACT_AUDIT_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          FACT_AUDIT_HEAD: ${{ github.sha }}
+        run: |
+          set +e
+          python scripts/audit_fact_change.py --root . --base "$FACT_AUDIT_BASE" --head "$FACT_AUDIT_HEAD" --output "$RUNNER_TEMP/fact-audit.json" --markdown "$RUNNER_TEMP/fact-audit.md"
+          audit_status=$?
+          cat "$RUNNER_TEMP/fact-audit.md" >> "$GITHUB_STEP_SUMMARY"
+          exit "$audit_status"
+      - name: Verify canonical Fact history
+        if: ${{ hashFiles('facts/MANIFEST.json') != '' }}
+        run: python scripts/fact_admin.py --root . integrity

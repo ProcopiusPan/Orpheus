@@ -1,0 +1,20 @@
+{
+  "name": "orpheus",
+  "version": "0.1.0",
+  "description": "Mathematical research focused on useful local theorems, independent proof review, and Git-versioned Facts.",
+  "author": {
+    "name": "Orpheus contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Orpheus",
+    "shortDescription": "\u6570\u5b66\u7814\u7a76\u3001\u72ec\u7acb\u5ba1\u67e5\u4e0e Git \u7248\u672c\u5316 Fact\u3002",
+    "longDescription": "\u7531 Codex \u81ea\u4e3b\u7814\u7a76\u548c\u534f\u4f5c\uff0c\u9ed8\u8ba4\u8ffd\u6c42\u81ea\u7136\u3001\u5c40\u90e8\u6709\u529b\u4e14\u53ef\u590d\u7528\u7684\u5b9a\u7406\uff0c\u6bd4\u8f83\u8def\u7ebf\u6536\u76ca\u5e76\u4fdd\u5b58\u73b0\u8c61\u3001\u7528\u9014\u548c\u8fb9\u754c\uff1b\u4ee5\u72ec\u7acb\u5ba1\u67e5\u3001Git \u5386\u53f2\u548c\u5b8c\u6574\u6027\u68c0\u67e5\u7ef4\u62a4\u7814\u7a76\u7b14\u8bb0\u4e0e Fact\u3002",
+    "developerName": "Orpheus contributors",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "\u4f7f\u7528 Orpheus \u7814\u7a76\u6211\u7684\u6570\u5b66\u95ee\u9898\uff0c\u4f18\u5148\u63d0\u70bc\u81ea\u7136\u3001\u5c40\u90e8\u6709\u529b\u4e14\u6709\u660e\u786e\u7528\u9014\u7684\u7ed3\u8bba\uff0c\u7ef4\u62a4\u7814\u7a76\u7b14\u8bb0\uff0c\u5e76\u5c06\u6210\u719f\u8bc1\u660e\u63d0\u4ea4\u72ec\u7acb\u5ba1\u67e5\u4e0e Git Fact \u5386\u53f2\u3002"
+  },
+  "mcpServers": "./.mcp.json",
+  "license": "MIT"
+}

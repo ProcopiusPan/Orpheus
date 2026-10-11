@@ -1,0 +1,11 @@
+* text=auto
+
+# Canonical Fact content and audit metadata must hash identically on Windows
+# and Linux. Generated writes also use LF; this prevents manifest drift.
+facts/** text eol=lf
+templates/facts/** text eol=lf
+candidates/** text eol=lf
+reviews/** text eol=lf
+requests/** text eol=lf
+issues/** text eol=lf
+incidents/** text eol=lf

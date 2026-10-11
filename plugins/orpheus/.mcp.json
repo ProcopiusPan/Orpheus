@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "orpheus-fact": {
+      "command": "__GENERATED_BY_INSTALLER__",
+      "args": [
+        "__GENERATED_BY_INSTALLER__"
+      ]
+    }
+  }
+}
