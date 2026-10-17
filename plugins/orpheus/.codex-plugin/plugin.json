@@ -1,6 +1,6 @@
 {
   "name": "orpheus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mathematical research focused on useful local theorems, independent proof review, and Git-versioned Facts.",
   "author": {
     "name": "Orpheus contributors"

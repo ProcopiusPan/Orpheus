@@ -10,7 +10,7 @@ A lightweight mathematical research plugin for Codex. The main conversation lead
 - Maintain resumable Markdown notes compatible with Obsidian, including failed approaches and literature reading.
 - Independently review immutable candidates in fresh sessions before explicit Fact acceptance.
 - Preserve exact dependencies, proofs, computation scripts and bound results in Git history.
-- Explore related and stronger literature results. Zotero is optional.
+- Search prior work across fields when starting a problem or discovering a structure; reuse relevant theories, locate the contribution, and explore related or stronger results. Zotero is optional.
 
 ## Install on Windows
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — Unreleased
+
+- Search prior work at the start of every new problem and when new structures or mechanisms emerge, including alternate terminology and reusable theories across fields.
+- Compare applicability, required bridges and the remaining contribution; retain search scope in existing notes for efficient resumption.
+
 ## 0.1.0 — 2026-10-11
 
 First public source release.
