@@ -1,25 +1,25 @@
 # Orpheus
 
-A lightweight mathematical research plugin for Codex. The main conversation leads research, native agents collaborate, Skills guide research and cold review, and a local stdio MCP service maintains Git-versioned Facts.
+**Keep research resumable, proofs reviewable, and results reusable.**
 
-[中文说明](README.md) · [Installation guide](docs/快速开始.md)
+Orpheus is a lightweight mathematical research plugin for Codex. Codex handles reasoning and collaboration; Orpheus preserves readable research notes, accumulates independently reviewed local results as Git-versioned Facts, and helps turn them into papers.
+
+[Download latest](https://github.com/ProcopiusPan/Orpheus/releases/latest) · [Quick start (中文)](docs/快速开始.md) · [中文说明](README.md)
 
 ## Capabilities
 
-- Extract useful local theorems, compare research routes, and preserve explicit user goals.
-- Maintain resumable Markdown notes compatible with Obsidian, including failed approaches and literature reading.
-- Independently review immutable candidates in fresh sessions before explicit Fact acceptance.
-- Preserve exact dependencies, proofs, computation scripts and bound results in Git history.
-- Search prior work across fields when starting a problem or discovering a structure; reuse relevant theories, locate the contribution, and explore related or stronger results. Zotero is optional.
-- Organize new and reused literature in existing Zotero collections as you read, and adjust classifications later without a separate review workflow.
-- Reuse remembered Zotero local write authorization across conversations through Windows Credential Manager after choosing “Always Allow” in Zotero.
-- Use the bundled [Fact-based paper-writing Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md) to turn accepted results, proofs and computation artifacts into a manuscript, update it incrementally, and polish its academic prose.
+- **Resume research**: keep problems, derivations, failed approaches and reading records in Obsidian-compatible notes, then continue in a new conversation.
+- **Build reusable knowledge**: review small, complete results in fresh sessions and preserve accepted Facts with their proofs, dependencies and computation artifacts in Git.
+- **Use prior work**: search across fields when starting a problem or discovering a structure, explore related results, and optionally manage literature with Zotero.
+- **Write papers**: use the bundled [Fact-based paper-writing Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md) to organize accepted results, update manuscripts incrementally and polish the prose.
+
+The main conversation leads research and uses Codex's native agents as needed. Models for each role can be selected by the user or inherited from the host configuration.
 
 ## Install on Windows
 
 Requirements: Python 3.13, Git, Codex CLI with `codex plugin add`, and Codex desktop for research. Obsidian and Zotero are optional.
 
-Download and extract `orpheus-0.1.2-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
+Download the Windows installer archive (the filename ends in `-windows.zip`) from the [Latest Release](https://github.com/ProcopiusPan/Orpheus/releases/latest) and extract it. Open PowerShell in the extracted directory:
 
 ```powershell
 $target = Join-Path $env:USERPROFILE "Orpheus"
@@ -55,3 +55,5 @@ The release script runs tests, packages the source files and generates file chec
 Feedback and contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Licensed under [MIT](LICENSE).
+
+[Advanced installation (中文)](docs/安装便携包.md) · [Literature management (中文)](docs/Zotero适配与使用.md) · [Fact maintenance (中文)](docs/Fact维护说明.md)

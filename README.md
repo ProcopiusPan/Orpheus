@@ -1,27 +1,25 @@
 # Orpheus
 
-**运行在 Codex 中的轻量数学研究插件：保存可续接的研究笔记，提炼有用途的局部定理，并通过独立冷审积累 Git Fact。**
+**让数学研究可续接，让证明可审查，让结果可复用。**
 
-[English](README.en.md) · [快速开始](docs/快速开始.md) · [高级安装](docs/安装便携包.md) · [文献管理](docs/Zotero适配与使用.md) · [Fact 维护](docs/Fact维护说明.md)
+Orpheus 是运行在 Codex 中的轻量数学研究插件。Codex 负责推理与协作，Orpheus 将研究过程保存为可读笔记，把经过独立审查的局部结论积累为 Git Fact，并支持持续整理成论文。
 
-第一次使用可以从[快速开始](docs/快速开始.md)阅读。
+[下载最新版](https://github.com/ProcopiusPan/Orpheus/releases/latest) · [快速开始](docs/快速开始.md) · [English](README.en.md)
 
 ## 它做什么
 
-- Codex 主对话统筹研究，按需使用原生子代理开展证明、计算和文献阅读；各角色模型由用户指定或沿用宿主默认配置。
-- 从现象提炼自然、局部有力且有用途的结论；在里程碑比较深化、推广、应用和换路线，保留用户明确指定的总目标。
-- 将过程、失败路线和阅读记录保存为 Obsidian 可读 Markdown。一个研究项目可以包含多个问题。
-- 固定候选经过全新会话独立冷审后显式接纳，保留证明、精确依赖、脚本及计算结果；Fact 使用 Git 版本历史和完整性检查。
-- 新问题启动和新结构出现时跨领域检索已有工作，寻找可复用理论并定位贡献；阅读时继续探索相关与更强结果。Zotero 可选。
-- 新增、复用和阅读文献时顺手维护 Zotero 分类，沿用用户现有集合，后续可直接调整，无需单独审查。
-- Windows 下首次在 Zotero 选择“始终允许”后，通过系统凭据管理器跨对话复用本地写入授权。详见[文献管理](docs/Zotero适配与使用.md)。
-- 内置 [Fact 论文写作 Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md)，将已接纳的结论、证明和计算材料组织成论文，按新 Fact 增量更新，并精修学术表达与可读性。
+- **续接研究**：在 Obsidian 可读笔记中保留问题、推导、失败路线与阅读记录，新对话从已有进展继续。
+- **积累结论**：将证明完整的小结论交给全新会话独立审查，接纳后保存为 Git Fact，保留证明、依赖和计算材料。
+- **利用文献**：在新问题和新结构出现时跨领域检索已有工作，扩展阅读相关结果；可选用 Zotero 管理文献。
+- **整理成文**：通过内置 [Fact 论文写作 Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md)组织已接纳的结果，增量更新稿件并精修表达。
+
+主对话统筹研究，按需调用 Codex 原生子代理；各角色模型可由用户指定或沿用宿主默认配置。
 
 ## 安装
 
 当前安装器支持 **Windows、Python 3.13、Git，以及可执行 `codex plugin add` 的 Codex CLI**。Codex 桌面版用于实际研究；Obsidian 和 Zotero 可选。
 
-1. 从 [Releases](https://github.com/ProcopiusPan/Orpheus/releases) 下载 `orpheus-0.1.2-windows.zip` 并解压。
+1. 从 [Latest Release](https://github.com/ProcopiusPan/Orpheus/releases/latest) 下载 Windows 安装包（文件名以 `-windows.zip` 结尾）并解压。
 2. 在解压目录打开 PowerShell，执行：
 
 ```powershell
@@ -76,3 +74,5 @@ py -3.13 -m venv .venv
 ## 许可证与贡献
 
 代码与 Skills 使用 [MIT 许可证](LICENSE)。欢迎反馈和贡献，详见[贡献说明](CONTRIBUTING.md)。
+
+[高级安装](docs/安装便携包.md) · [文献管理](docs/Zotero适配与使用.md) · [Fact 维护](docs/Fact维护说明.md)
