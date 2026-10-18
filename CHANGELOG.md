@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — 2026-10-19
+
+- Organize literature in existing Zotero collections during research and writing, with classifications adjustable as reading progresses.
+- Reuse remembered Zotero 10+ local API authorizations across conversations through Windows Credential Manager, scoped to each Zotero instance.
+- Add a shared local API helper with bounded authorization renewal, concurrent authorization coordination, and synthetic credential-flow tests.
+- Update literature-management guidance and usage instructions.
+
 ## 0.1.1 — 2026-10-18
 
 - Generalize paper-writing instructions and examples across mathematical fields, with manuscript structure and synchronization determined by each project.

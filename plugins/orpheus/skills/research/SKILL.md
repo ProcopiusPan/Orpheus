@@ -99,6 +99,8 @@ researcher 的连续工作优先通过同一线程的 follow-up 保留路线上�
 不因缺少 Zotero 阻塞研究。实际用于研究的条目应登记到项目 `papers/`，问题级 `文献与证据.md` 记录精确阅读位置。只有实际核对的原文
 才能进入候选来源。具体目录、登记和同步规则见[项目工作区与研究笔记](../../references/workspace-notes.md)。
 
+新增、复用或阅读文献时按[文献归类](../../references/literature-management.md)顺手维护集合，后续可直接修正。归类不增加审批或专门复核，也不成为证明或 Fact 读取的前置关卡。
+
 ## 边界与记录
 
 用户选定的本地项目保存 `Orpheus研究/` 和共享 `papers/`；安装目录保存候选、审查和正式 Fact。用户文档遵守[Obsidian 规范](../../references/obsidian.md)，公式使用 `$...$` 与 `$$...$$`。

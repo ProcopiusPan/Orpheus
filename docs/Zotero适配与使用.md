@@ -2,11 +2,23 @@
 
 ## 角色与边界
 
-若当前环境配置了 Zotero，Zotero Desktop 可作为全局文献书目、标签、集合、全文、附件和批注的主库。status、搜索、单条书目及 children、附件路径和已索引全文由已安装的官方 Zotero Skill/helper 完成。未配置 Zotero 时，项目 `papers/`、合法检索和其他可核验来源仍可支持研究。Orpheus 不把 Zotero HTTP 客户端复制进唯一 Fact stdio，也没有 Zotero 条目的新增、编辑、删除和 Connector 导入工具。项目 `papers/` 承担项目级文献信息登记、阅读入口和用户手动添加特定文献的入口，通常不保存独立全文副本。
+若当前环境配置了 Zotero，Zotero Desktop 可作为全局文献书目、标签、集合、全文、附件和批注的主库。检索、读取、导出和导入优先复用已安装的 Zotero Skill/helper；集合归类也可通过 Zotero 10+ 的官方本地 API 在授权后完成。未配置 Zotero 时，项目 `papers/`、合法检索和其他可核验来源仍可支持研究。项目 `papers/` 承担项目级文献信息登记、阅读入口和用户手动添加特定文献的入口，通常不保存独立全文副本。文献管理不加入 Fact stdio 服务。
 
 Zotero Skill 是可选协作插件。它未安装、Zotero 未运行或 Local API 未启用时，直接使用项目 `papers/` 或合法检索取得的原文，不因此阻塞研究；若以后启用 Zotero，可以再把项目登记转换为硬链接或路径引用，并保留 sidecar 和阅读记录。
 
+## 日常归类
+
+新增、复用或阅读文献时，按已有主题和实际项目用途顺手归类；一篇文章可属于多个集合。优先沿用用户现有结构，没有合适结构时可按阅读入口、研究项目、学科主题和待核对组织。分类是可修改的导航信息，后续使用中可以直接纠正，不设专门审批、审查或复核流程。
+
+仅处理本轮涉及的文献和碰到的漏分条目，不反复全库整理；无需另建分类报告。归类不改变用户阅读状态或书目、笔记和附件。具体操作见[文献归类](../plugins/orpheus/references/literature-management.md)。Zotero 10+ 写入需要用户在软件中授权；较旧或不可写环境先保留项目导航，之后再补分类，不阻塞研究。
+
 ## 准备
+
+### Windows 跨对话授权
+
+Orpheus 的官方本地 API 写入统一经过 `plugins/orpheus/scripts/zotero_local.py`。首次运行 `python -B <orpheus-plugin-root>/scripts/zotero_local.py authorize` 并在 Zotero 选择“始终允许”；此后不同对话和插件版本从当前 Windows 用户的凭据管理器复用密钥，不需要再次申请。授权按 Zotero 实例隔离，凭据不随插件包、Git 或研究项目分发。
+
+`status` 不弹窗，只报告连接与缓存是否存在，不能单凭缓存存在断言密钥仍有效。`request PATCH /api/users/0/items/ITEMKEY --json-file change.json` 使用共享授权执行官方写入，JSON 中需带当前对象版本；仅当密钥缺失或收到 401 时才请求官方授权，拒绝或其他错误不循环弹窗。`forget` 删除 Orpheus 本机缓存，不撤销 Zotero 侧授权。细节及边界见[文献归类的跨对话授权](../plugins/orpheus/references/literature-management.md#跨对话授权windows)。非 Windows 暂未实现此持久授权入口。
 
 在 Zotero 中启动 Desktop，并在设置中启用允许本机应用访问的 Local API。用 Zotero Skill 的 helper 检查：
 

@@ -13,13 +13,15 @@
 - 将过程、失败路线和阅读记录保存为 Obsidian 可读 Markdown。一个研究项目可以包含多个问题。
 - 固定候选经过全新会话独立冷审后显式接纳，保留证明、精确依赖、脚本及计算结果；Fact 使用 Git 版本历史和完整性检查。
 - 新问题启动和新结构出现时跨领域检索已有工作，寻找可复用理论并定位贡献；阅读时继续探索相关与更强结果。Zotero 可选。
+- 新增、复用和阅读文献时顺手维护 Zotero 分类，沿用用户现有集合，后续可直接调整，无需单独审查。
+- Windows 下首次在 Zotero 选择“始终允许”后，通过系统凭据管理器跨对话复用本地写入授权。详见[文献管理](docs/Zotero适配与使用.md)。
 - 内置 [Fact 论文写作 Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md)，将已接纳的结论、证明和计算材料组织成论文，按新 Fact 增量更新，并精修学术表达与可读性。
 
 ## 安装
 
 当前安装器支持 **Windows、Python 3.13、Git，以及可执行 `codex plugin add` 的 Codex CLI**。Codex 桌面版用于实际研究；Obsidian 和 Zotero 可选。
 
-1. 从 [Releases](https://github.com/ProcopiusPan/Orpheus/releases) 下载 `orpheus-0.1.1-windows.zip` 并解压。
+1. 从 [Releases](https://github.com/ProcopiusPan/Orpheus/releases) 下载 `orpheus-0.1.2-windows.zip` 并解压。
 2. 在解压目录打开 PowerShell，执行：
 
 ```powershell

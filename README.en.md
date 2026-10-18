@@ -11,13 +11,15 @@ A lightweight mathematical research plugin for Codex. The main conversation lead
 - Independently review immutable candidates in fresh sessions before explicit Fact acceptance.
 - Preserve exact dependencies, proofs, computation scripts and bound results in Git history.
 - Search prior work across fields when starting a problem or discovering a structure; reuse relevant theories, locate the contribution, and explore related or stronger results. Zotero is optional.
+- Organize new and reused literature in existing Zotero collections as you read, and adjust classifications later without a separate review workflow.
+- Reuse remembered Zotero local write authorization across conversations through Windows Credential Manager after choosing “Always Allow” in Zotero.
 - Use the bundled [Fact-based paper-writing Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md) to turn accepted results, proofs and computation artifacts into a manuscript, update it incrementally, and polish its academic prose.
 
 ## Install on Windows
 
 Requirements: Python 3.13, Git, Codex CLI with `codex plugin add`, and Codex desktop for research. Obsidian and Zotero are optional.
 
-Download and extract `orpheus-0.1.1-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
+Download and extract `orpheus-0.1.2-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
 
 ```powershell
 $target = Join-Path $env:USERPROFILE "Orpheus"

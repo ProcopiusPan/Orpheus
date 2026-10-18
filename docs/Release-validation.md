@@ -1,5 +1,13 @@
 # Release validation
 
+## 0.1.2 — 2026-10-19
+
+- Source tests: 80 passed, 1 skipped. Tests use synthetic Zotero responses and credentials; the skipped test requires an installed Windows MCP configuration.
+- The new authorization tests cover cross-client reuse, Zotero-instance separation, one-time grants, renewal after rejection, concurrent refresh reuse, bounded failure handling and redaction.
+- Literature classification is shared by research and paper writing, and can be adjusted during subsequent reading without a separate review workflow.
+- Windows authorization uses the current user's Credential Manager. Development checks exercised a temporary synthetic credential across processes and local reuse of an authorized grant; publication does not require accessing or distributing that grant.
+- The Fact service and cold-review protocol are unchanged. Three Skills, Markdown links, package inclusion and private-data exclusions are checked for distribution.
+
 ## 0.1.1 — 2026-10-18
 
 - Three bundled Skills passed structural validation: research, independent proof review, and Fact-based paper writing. Their Markdown references and interface metadata were checked.
