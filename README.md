@@ -19,7 +19,7 @@
 
 当前安装器支持 **Windows、Python 3.13、Git，以及可执行 `codex plugin add` 的 Codex CLI**。Codex 桌面版用于实际研究；Obsidian 和 Zotero 可选。
 
-1. 从 [Releases](https://github.com/ProcopiusPan/Orpheus/releases) 下载 `orpheus-0.1.0-windows.zip` 并解压。
+1. 从 [Releases](https://github.com/ProcopiusPan/Orpheus/releases) 下载 `orpheus-0.1.1-windows.zip` 并解压。
 2. 在解压目录打开 PowerShell，执行：
 
 ```powershell

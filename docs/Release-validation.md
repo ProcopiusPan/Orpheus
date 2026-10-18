@@ -1,4 +1,15 @@
-# Release validation: 0.1.0
+# Release validation
+
+## 0.1.1 — 2026-10-18
+
+- Three bundled Skills passed structural validation: research, independent proof review, and Fact-based paper writing. Their Markdown references and interface metadata were checked.
+- Source tests: 58 passed, 1 skipped. The skipped test requires an installed Windows MCP configuration.
+- Temporary Windows installation tests confirmed that all five paper-writing files are installed with their original contents.
+- The local plugin was upgraded through the Codex CLI; source, personal plugin source and the installed cache were compared file by file.
+- The portable archive includes cross-field prior-work search and generalized paper-writing guidance. Archive integrity, file digests, extracted Markdown links and private-path scans were checked.
+- The Fact service is unchanged from 0.1.0. Full dependency installation and MCP handshake validation from that release are recorded below; this update adds Skills and documentation.
+
+## 0.1.0 — 2026-10-11
 
 Validated on 2026-10-11 before public distribution.
 

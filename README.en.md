@@ -17,7 +17,7 @@ A lightweight mathematical research plugin for Codex. The main conversation lead
 
 Requirements: Python 3.13, Git, Codex CLI with `codex plugin add`, and Codex desktop for research. Obsidian and Zotero are optional.
 
-Download and extract `orpheus-0.1.0-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
+Download and extract `orpheus-0.1.1-windows.zip` from [Releases](https://github.com/ProcopiusPan/Orpheus/releases). Open PowerShell in the extracted directory:
 
 ```powershell
 $target = Join-Path $env:USERPROFILE "Orpheus"

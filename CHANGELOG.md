@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 — Unreleased
+## 0.1.1 — 2026-10-18
 
 - Generalize paper-writing instructions and examples across mathematical fields, with manuscript structure and synchronization determined by each project.
 - Bundle the Fact-based paper-writing Skill, evidence and incremental-update guidance, manuscript validation, and readability polishing, with usage instructions.
