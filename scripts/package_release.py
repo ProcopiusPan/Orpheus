@@ -23,7 +23,7 @@ def select_release_files(root: Path) -> list[Path]:
     for name in ("audit_fact_change.py", "check_markdown.py", "fact_admin.py", "orpheus_fact_stdio.py", "install_portable.ps1"):
         selected.append(root / "scripts" / name)
     selected.append(root / ".github" / "workflows" / "fact-integrity.yml")
-    for name in ("快速开始.md", "安装便携包.md", "Zotero适配与使用.md", "Fact维护说明.md"):
+    for name in ("快速开始.md", "安装便携包.md", "Zotero适配与使用.md", "Fact维护说明.md", "Release-validation.md"):
         selected.append(root / "docs" / name)
     return sorted(set(selected))
 

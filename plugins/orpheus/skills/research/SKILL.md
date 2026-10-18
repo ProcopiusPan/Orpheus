@@ -106,3 +106,5 @@ researcher 的连续工作优先通过同一线程的 follow-up 保留路线上�
 AI 不得直接编辑或删除 `facts/`、`reviews/`、manifest 或历史版本。正式路径只有候选提交、绑定冷审、显式接纳。完整性异常先保存 incident；恢复或 Git revert 默认只预览，只有用户明确指定 `--apply` 才执行。AI 审查通过只标记 `AI_REVIEWED`。
 
 结束或交接前记录当前结论、未解决问题、候选或 Fact ID、必要文献和下一步，使研究能够从文件继续。
+
+用户要求将研究整理成论文、按新 Fact 更新稿件或精修学术表达时，使用插件内的 [Fact 论文写作 Skill](../fact-paper-writing/SKILL.md)。写作读取已接纳的精确 Fact、证明和绑定附件，按目标稿件的格式与范围工作。

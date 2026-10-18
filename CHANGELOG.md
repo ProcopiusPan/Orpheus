@@ -2,6 +2,7 @@
 
 ## 0.1.1 — Unreleased
 
+- Bundle the Fact-based paper-writing Skill, evidence and incremental-update guidance, manuscript validation, and readability polishing, with usage instructions.
 - Search prior work at the start of every new problem and when new structures or mechanisms emerge, including alternate terminology and reusable theories across fields.
 - Compare applicability, required bridges and the remaining contribution; retain search scope in existing notes for efficient resumption.
 

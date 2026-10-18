@@ -11,6 +11,7 @@ A lightweight mathematical research plugin for Codex. The main conversation lead
 - Independently review immutable candidates in fresh sessions before explicit Fact acceptance.
 - Preserve exact dependencies, proofs, computation scripts and bound results in Git history.
 - Search prior work across fields when starting a problem or discovering a structure; reuse relevant theories, locate the contribution, and explore related or stronger results. Zotero is optional.
+- Use the bundled [Fact-based paper-writing Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md) to turn accepted results, proofs and computation artifacts into a manuscript, update it incrementally, and polish its academic prose.
 
 ## Install on Windows
 
@@ -32,6 +33,10 @@ You can also install from a downloaded source ZIP using the same command.
 Notes live in the project's `Orpheus研究/`, literature records in `papers/`, and candidates, review reports and accepted Facts in the installation directory. A local stdio MCP service manages Facts; the installer configures its environment and paths.
 
 Research materials are stored locally. For remote backups, supply your own empty private repository using `-RemoteUrl`, `-GitName` and `-GitEmail`. See the Chinese [advanced installation guide](docs/安装便携包.md) for upgrades, parallel installations and removal.
+
+## Writing from Facts
+
+For paper writing, ask Codex to use Orpheus's Fact-based paper-writing Skill and specify the target manuscript, scope, audience, language and format. It reads the accepted evidence and organizes the mathematical argument, citations and supporting examples. Chapter updates and prose-only revisions are also supported.
 
 ## Development
 

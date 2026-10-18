@@ -1,0 +1,6 @@
+interface:
+  display_name: "Fact 驱动的数学论文写作"
+  short_description: "将已接纳 Fact、证明及计算附件组织成论文，并按新研究增量更新正文"
+  default_prompt: "使用 $fact-paper-writing，根据已接纳 Fact 和相关证明、文献及计算附件更新指定论文，保持证据范围并核查稿件。"
+policy:
+  allow_implicit_invocation: true

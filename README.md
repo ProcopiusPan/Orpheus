@@ -13,6 +13,7 @@
 - 将过程、失败路线和阅读记录保存为 Obsidian 可读 Markdown。一个研究项目可以包含多个问题。
 - 固定候选经过全新会话独立冷审后显式接纳，保留证明、精确依赖、脚本及计算结果；Fact 使用 Git 版本历史和完整性检查。
 - 新问题启动和新结构出现时跨领域检索已有工作，寻找可复用理论并定位贡献；阅读时继续探索相关与更强结果。Zotero 可选。
+- 内置 [Fact 论文写作 Skill](plugins/orpheus/skills/fact-paper-writing/SKILL.md)，将已接纳的结论、证明和计算材料组织成论文，按新 Fact 增量更新，并精修学术表达与可读性。
 
 ## 安装
 
@@ -45,6 +46,16 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\install_porta
 研究资料保存在本地。需要远程备份时，在安装命令中通过 `-RemoteUrl` 指定自己的空私有仓库，详见[快速开始](docs/快速开始.md)。
 
 插件通过本地 stdio MCP 服务管理 Fact，环境和路径由安装器配置。
+
+## 从 Fact 写论文
+
+在研究项目中告诉 Codex：
+
+```text
+使用 Orpheus 的 Fact 论文写作 Skill，根据已接纳 Fact 和相关文献整理这篇论文，并按新结果更新正文。目标稿件：填写文件路径；读者、语言与格式：填写要求。
+```
+
+写作会读取完整证明及计算附件，围绕数学论证组织材料，并处理来源对应、稿件同步与可读性精修。也可以只要求更新某个章节或润色已有稿件。
 
 ## 开发与测试
 

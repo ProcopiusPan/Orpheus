@@ -34,6 +34,9 @@ def test_release_selection_contains_portable_surface_without_private_state():
     assert "docs/快速开始.md" in names
     assert "docs/Zotero适配与使用.md" in names
     assert "plugins/orpheus/references/agent-orchestration.md" in names
+    for relative in ("SKILL.md", "agents/openai.yaml", "references/evidence-and-updates.md",
+                     "references/manuscript-validation.md", "references/readability-polish.md"):
+        assert f"plugins/orpheus/skills/fact-paper-writing/{relative}" in names
     for role in ("compute", "reader", "researcher", "verifier"):
         assert f"plugins/orpheus/assets/agent-templates/orpheus-{role}.toml" in names
     assert "marketplace/marketplace.json" in names
@@ -176,6 +179,11 @@ def test_portable_installer_real_temp_install_without_network(tmp_path):
     assert command.resolve() == (target / ".venv/Scripts/python.exe").resolve()
     assert script.resolve() == (target / "scripts/orpheus_fact_stdio.py").resolve()
     assert not personal.exists()
+    writing = Path("plugins/orpheus/skills/fact-paper-writing")
+    for source in (ROOT / writing).rglob("*"):
+        if source.is_file():
+            relative = source.relative_to(ROOT)
+            assert (target / relative).read_bytes() == source.read_bytes()
 
 
 def test_portable_installer_trial_is_side_by_side_with_existing_orpheus(tmp_path):
