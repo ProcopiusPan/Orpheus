@@ -1,5 +1,12 @@
 # Release validation
 
+## 0.1.3 — 2026-10-25
+
+- This update changes research guidance, role templates and public release metadata. The Fact service, review protocol and installer behavior are unchanged.
+- Structural checks cover the three Skills, four role templates, Markdown links and math delimiters. Regression results are reported with the GitHub release and CI.
+- Distribution checks inspect the selected Windows payload and tracked source archive, including installer-generated MCP placeholders and exclusion of Python caches, private research records, credentials and machine paths.
+- The new research guidance is not evaluated by the software regression suite; no comparative mathematical research benchmark is reported for this release.
+
 ## 0.1.2 — 2026-10-19
 
 - Source tests: 80 passed, 1 skipped. Tests use synthetic Zotero responses and credentials; the skipped test requires an installed Windows MCP configuration.

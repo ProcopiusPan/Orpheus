@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import os
+import re
 import shutil
 import subprocess
 
@@ -61,7 +62,9 @@ def test_portable_blobs_scrub_development_mcp_path():
     names = set(blobs)
     assert not any(name.startswith(("facts/", "candidates/", "reviews/", "requests/", "issues/", "incidents/", ".git/")) for name in names)
     assert b"__GENERATED_BY_INSTALLER__" in blobs["plugins/orpheus/.mcp.json"]
-    assert "第一次使用" in blobs["README.md"].decode("utf-8")
+    readme = blobs["README.md"].decode("utf-8")
+    assert re.search(r"\[[^\]]+\]\(https://github\.com/[^/\s]+/[^/\s]+/releases/latest\)", readme)
+    assert "scripts\\install_portable.ps1" in readme or "scripts/install_portable.ps1" in readme
     assert "ExecutionPolicy Bypass" in blobs["docs/快速开始.md"].decode("utf-8")
     orchestration = blobs["plugins/orpheus/references/agent-orchestration.md"].decode("utf-8")
     assert "模型继承政策" in orchestration

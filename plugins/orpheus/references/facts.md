@@ -2,6 +2,8 @@
 
 `fact_search(query, limit)` 返回有效 Fact 的 ID、版本、标题和证据等级。`fact_get(fact_id, version)` 返回 Git 中该精确版本的数学正文与机器元数据。版本必须精确，不用“最新”暗中替换证明依赖。
 
+**检索语义：** 当前 `fact_search` 对 Fact 正文做不区分大小写的连续子串匹配，不做分词、关键词 AND／OR 或语义检索。空格分隔的多个词会作为一个完整字符串匹配；零命中不能说明没有与这些关键词相关的结果。按独立关键词、结构别名和一般定理术语分别查询，再读取命中的实际命题；命中也可能仅来自证明或引用。结果受 `limit` 截断，一次查询不证明已穷尽。必要时只读检索正式库或阅读索引扩大定位范围，最终仍用 `fact_get` 核实状态、精确版本和数学内容。
+
 `candidate_submit(request_key, candidate)` 接受标题、命题、假设、证明、来源、依赖和可选修订来源，并把固定候选写入 Git commit。使用稳定请求键；相同内容会复用候选哈希，改变内容必须更换请求键。
 
 `candidate_submit_files(request_key, candidate, artifact_files)` 用于带本地附件的候选。`candidate` 不内嵌 `artifacts`；`artifact_files` 每项只含 `path`、`kind` 和可选 `name`。Fact 服务直接从本地文件读取 UTF-8 内容并构造同一种不可变候选，附件不会经过命令输出或模型上下文。大脚本、结果和证书优先使用此入口；不要先用 `Get-Content` 把全文读回对话。
