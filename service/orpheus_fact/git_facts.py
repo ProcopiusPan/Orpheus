@@ -1,7 +1,7 @@
 """Git-backed canonical Fact history.
 
 The Git tree is authoritative. Markdown is the user-readable Fact, adjacent
-JSON is machine metadata, and SQLite (when requested) is only a rebuildable
+JSON is machine metadata, and SQLite is only a rebuildable
 search index. Every mutation first checks the tree and then creates an
 explicit commit; no MCP method can edit an accepted Fact in place.
 """
@@ -13,10 +13,10 @@ import json
 import os
 from pathlib import Path
 import re
-import sqlite3
 import subprocess
 import uuid
 
+from . import fact_index
 from .models import Artifact, Candidate, FactRef, Finding, Review, Source
 
 
@@ -488,18 +488,15 @@ class GitFactStore:
             raise GitFactError("FACT_NOT_FOUND")
         return {**self._load_metadata(metadata_path), "markdown": markdown_path.read_text(encoding="utf-8")}
 
-    def search(self, query: str, limit: int = 20) -> list[dict]:
+    def _fact_tree(self) -> str:
+        return self._git(["rev-parse", "--verify", "--quiet", "HEAD:facts"], check=False)
+
+    def search(self, query: str, limit: int = 20, *, depends_on: FactRef | None = None) -> list[dict]:
         if not isinstance(query, str) or not 1 <= limit <= 100:
             raise GitFactError("INVALID_QUERY")
-        result = []
-        for path in self._fact_paths():
-            metadata = self._load_metadata(path)
-            body = path.with_suffix(".md").read_text(encoding="utf-8")
-            if metadata.get("status") == "ACTIVE" and query.casefold() in body.casefold():
-                result.append({"fact_id": metadata["fact_id"], "version": metadata["version"],
-                               "title": body.splitlines()[0].removeprefix("# "),
-                               "status": metadata["status"], "evidence_level": metadata["evidence_level"]})
-        return result[:limit]
+        target = self.root / ".runtime" / "fact-search.sqlite"
+        with fact_index.index_connection(self.root, self._fact_tree(), target) as db:
+            return fact_index.search(db, query, limit, depends_on)
 
     def report_issue(self, ref: FactRef, reason: str) -> dict:
         if not reason.strip():
@@ -554,16 +551,10 @@ class GitFactStore:
         return {"status": "REVOKED", "affected": len(affected), "commit": commit}
 
     def rebuild_index(self, target: str | Path) -> Path:
-        """Rebuild an optional SQLite search index solely from Git Fact files."""
+        """Rebuild the disposable index from the currently committed Fact tree."""
         target = Path(target)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(target) as db:
-            db.execute("DROP TABLE IF EXISTS facts")
-            db.execute("CREATE TABLE facts(fact_id TEXT, version INTEGER, title TEXT, status TEXT, body TEXT, PRIMARY KEY(fact_id,version))")
-            for path in self._fact_paths():
-                metadata = self._load_metadata(path)
-                body = path.with_suffix(".md").read_text(encoding="utf-8")
-                db.execute("INSERT INTO facts VALUES(?,?,?,?,?)", (metadata["fact_id"], metadata["version"], body.splitlines()[0], metadata["status"], body))
+        with fact_index.index_connection(self.root, self._fact_tree(), target, force=True):
+            pass
         return target
 
     def remote_protection_status(self, remote: str = "origin") -> dict:

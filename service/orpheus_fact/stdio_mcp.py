@@ -57,8 +57,9 @@ def build_server(store: GitFactStore) -> MCPServer:
     )
 
     @server.tool()
-    def fact_search(query: str, limit: int = 20) -> dict:
-        return {"facts": store.search(query, limit)}
+    def fact_search(query: str = "", limit: int = 20, depends_on: FactRef | None = None) -> dict:
+        """Find ACTIVE Facts matching all terms, optionally restricted to direct users of an exact Fact version."""
+        return {"facts": store.search(query, limit, depends_on=depends_on)}
 
     @server.tool()
     def fact_get(fact_id: str, version: int) -> dict:

@@ -23,7 +23,7 @@ python scripts/fact_admin.py revoke <fact-id> <version> --reason "..."
 
 写入前会检查工作区是否被直接修改，并验证 `facts/MANIFEST.json` 覆盖的 facts、候选和审查文件哈希，以及 Fact 路径、版本、审查绑定和依赖。`issues/` 与 `incidents/` 是独立的 append-only 审计目录：不纳入事实 manifest，但每个事件必须同时有机器元数据和可读证据；完整性事件另保存 patch 并独立提交。
 
-检查失败时先记录 `incidents/incident-*.json`、`.patch` 和 `.md`，随后拒绝写入。不会静默 reset 或覆盖现场。恢复必须显式指定 incident、已知 Git commit 和相对路径，再重新运行完整性检查。SQLite 如需加速，只能用 `GitFactStore.rebuild_index()` 从当前 Git tree 重建；删除 SQLite 不影响正式 Fact。
+检查失败时先记录 `incidents/incident-*.json`、`.patch` 和 `.md`，随后拒绝写入。不会静默 reset 或覆盖现场。恢复必须显式指定 incident、已知 Git commit 和相对路径，再重新运行完整性检查。检索缓存从已提交的 Git Fact 树自动生成和更新。`rebuild-index` 可另行重建，删除缓存不影响正式 Fact。
 
 每次 push/PR 的 `scripts/audit_fact_change.py` 要求 canonical 路径变化与 `facts/MANIFEST.json` 同时变化；只改 manifest 会失败。CI 摘要只记录路径、哈希、计数、状态和 last-known-good commit，不导出 Fact 正文。`fact_admin.py restore` 和 `revert` 默认 dry-run，只有明确传入 `--apply` 才执行恢复或回滚。
 

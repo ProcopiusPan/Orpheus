@@ -10,11 +10,11 @@ downloaded_or_checked: ""
 sha256: "" # 由登记/同步脚本生成，无需手工填写
 license_or_access: ""
 related_questions: []
-source_mode: "manual_original" # manual_original / zotero_registration
+source_mode: "metadata_only" # metadata_only / manual_original / zotero_registration
 zotero_import_status: "pending" # pending / registered / not_applicable
 zotero_item_key: ""
 zotero_attachment_key: ""
-storage_mode: "manual_original" # manual_original / hardlink / path_reference
+storage_mode: "metadata_only" # metadata_only / manual_original / hardlink / path_reference
 attachment_path: ""
 paper_file: ""
 ---
@@ -33,11 +33,11 @@ paper_file: ""
 
 ## 文件与访问
 
-- 原文文件：可选；手动原文时填写同 stem 文件，Zotero 路径登记时留空
+- 原文文件：可选；仅书目信息登记时留空，手动原文时填写同 stem 文件
 - 下载/核查日期：
 - 完整性摘要：由登记/同步脚本生成和维护
 - 许可/访问说明：
-- 来源/登记方式：手动原文、Zotero 硬链接或 Zotero 路径引用
+- 来源/登记方式：仅书目信息、手动原文、Zotero 硬链接或 Zotero 路径引用
 - Zotero 导入状态：待导入、已登记或不适用
 
 ## 关联问题
@@ -48,7 +48,7 @@ paper_file: ""
 
 - theorem / proposition / section / page / version：
 
-把真实原文或已选附件交给登记/同步脚本，由脚本生成并维护完整性摘要，再将文献用于研究或候选引用。若 Zotero 未配置，直接保留项目 `papers/` 中的原文或合法来源登记；纯路径登记不在项目中复制全文。检查发现文件内容变化时报告 mismatch，等待复核后再更新登记。
+把真实原文或已选附件交给登记/同步脚本，由脚本生成并维护完整性摘要，再将文献用于研究或候选引用。没有原文时保持 `metadata_only`，只登记书目信息；旁边出现同 stem 原文或填写 `paper_file` 后，同步会转为 `manual_original` 并开始完整性校验。旧的 `manual_original` 登记即使缺少哈希或路径也必须能找到原文，否则报告缺失。若 Zotero 未配置，直接保留项目 `papers/` 中的原文或合法来源登记；纯路径登记不在项目中复制全文。检查发现文件内容变化时报告 mismatch，等待复核后再更新登记。
 
 ## 阅读与相关结果
 
@@ -58,4 +58,5 @@ paper_file: ""
 - 对本问题有用或可能更强的结果、完整假设与精确定位：
 - 实际核查的章节或证明，以及未读范围和访问缺口：
 - 值得继续核查的前置工作、推广或修正：
+- 有依据的价值判断、可改进处或新问题（按需记录原文位置、依据、潜在收益及与主线的关系；区分已证判断与开放疑问，未启动或暂缓的旁支注明状态，供用户阅读与后续选择）：
 - 对关联问题的作用及路线影响（链接到问题笔记）：

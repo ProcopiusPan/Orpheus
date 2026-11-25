@@ -1,0 +1,51 @@
+% Book-level navigation: Roman chapter labels, independent chapter pages,
+% continuous section/theorem numbering, and Roman-to-Arabic page transition.
+\newcounter{chapter}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\providecommand{\theHchapter}{\arabic{chapter}}
+\newsavebox{\bookabstractbox}
+\makeatletter
+\renewenvironment{abstract}{\global\setbox\bookabstractbox=\vbox\bgroup
+  \hsize=.88\textwidth\normalfont\normalsize\parindent=\normalparindent
+  \noindent\ignorespaces}{\par\egroup}
+\newcommand{\bookfrontmatter}{%
+  \hypersetup{pageanchor=false}%
+  \pagenumbering{gobble}%
+  \thispagestyle{empty}%
+  \vspace*{.16\textheight}%
+  \begin{center}
+    {\fontsize{30}{38}\selectfont\bfseries
+      \begin{minipage}{.96\textwidth}\centering\@title\par\end{minipage}\par}
+    \vspace{1.8em}{\color{blue!35!black}\rule{.22\textwidth}{.6pt}\par}
+    \vspace{2em}{\Large\authors\par}\vfill
+    {\small\@date\par}
+  \end{center}
+  \vspace*{.05\textheight}\clearpage
+  \pagenumbering{roman}\hypersetup{pageanchor=true}\pagestyle{plain}%
+  \phantomsection\addcontentsline{toc}{chapter}{Abstract}%
+  \vspace*{2em}\begin{center}{\LARGE\bfseries Abstract\par}\vspace{2em}
+    \begin{minipage}{.88\textwidth}\unvbox\bookabstractbox\end{minipage}
+  \end{center}
+  \clearpage\pdfbookmark[0]{Contents}{book.contents}}
+\newcommand{\bookmainmatter}{%
+  \clearpage\pagenumbering{arabic}\pagestyle{headings}%
+  \def\toclevel@section{0}\markboth{Introduction}{Introduction}}
+\newcommand{\chapter}[3]{%
+  \clearpage\def\toclevel@section{1}\refstepcounter{chapter}%
+  \addcontentsline{toc}{chapter}{\protect\tocchapter{Chapter}{\thechapter}{#1}}%
+  \markboth{Chapter \thechapter}{#1}\thispagestyle{empty}%
+  \vspace*{\stretch{1}}\begin{center}
+    {\Large\scshape Chapter \thechapter\par}\vspace{1.4em}
+    {\fontsize{28}{35}\selectfont\bfseries #1\par}\vspace{1.7em}
+    {\color{blue!35!black}\rule{.18\textwidth}{.6pt}\par}\vspace{2em}
+    {\small\scshape #2\par}\vspace{1.8em}
+    \begin{minipage}{.88\textwidth}\small
+      \renewcommand{\arraystretch}{1.35}%
+      \begin{tabular}{@{}r@{\quad}p{.86\linewidth}@{}}#3\end{tabular}
+    \end{minipage}
+  \end{center}
+  \vspace*{\stretch{1.5}}\clearpage}
+\newcommand{\bookbackmatter}{%
+  \clearpage\def\toclevel@section{0}\markboth{Appendix}{Appendix}}
+\renewcommand{\l@chapter}{\@tocline{0}{9pt plus1pt}{0pt}{}{\bfseries}}
+\makeatother

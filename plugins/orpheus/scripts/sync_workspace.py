@@ -156,16 +156,7 @@ def _metadata_block(fact: Fact, sync_time: str) -> str:
     )
 
 
-def _canonical_metadata(fact: Fact) -> list[str]:
-    deps = "无" if not fact.dependencies else "；".join(
-        f"{fact_id} v{version}" for fact_id, version in fact.dependencies
-    )
-    return [
-        f"- Fact ID：{fact.fact_id}", f"- 版本：{fact.version}", f"- 状态：{fact.status}",
-        f"- 证据等级：{fact.evidence_level}", f"- 接纳时间：{fact.admitted}",
-        f"- 依赖：{deps}", f"- 候选摘要：{fact.candidate_digest}",
-        f"- 审查摘要：{fact.review_digest}",
-    ]
+
 
 
 def _canonical_body(fact: Fact) -> str:
@@ -185,59 +176,67 @@ def _canonical_body(fact: Fact) -> str:
 def _replace_block(text: str, begin: str, end: str, block: str) -> str:
     pattern = re.compile(rf"\n?{re.escape(begin)}.*?{re.escape(end)}\n?", re.DOTALL)
     if pattern.search(text):
-        return pattern.sub("\n" + block + "\n", text, count=1)
+        return pattern.sub(lambda _: "\n" + block + "\n", text, count=1)
     return text.rstrip() + "\n\n" + block + "\n"
 
 
-def _projection_path(fact: Fact, fact_dir: Path) -> Path:
-    candidate = fact_dir / _safe_filename(fact.title, fact.fact_id)
-    matches: list[Path] = []
+def _projection_catalog(fact_dir: Path) -> tuple[dict[str, list[Path]], set[Path]]:
+    by_id: dict[str, list[Path]] = {}
+    occupied = {fact_dir / "Fact索引.md"}
     for path in sorted(fact_dir.glob("*.md")):
-        if path.name == "Fact索引.md":
+        if path in occupied:
             continue
         text = path.read_text(encoding="utf-8")
-        main_fact_id = re.search(
-            r"(?m)^(?:> )?- Fact ID[：:]\s*`?(fact-[A-Za-z0-9_-]+)`?\s*$",
-            text,
-        )
-        if main_fact_id and main_fact_id.group(1) == fact.fact_id:
-            matches.append(path)
-    if candidate in matches:
-        return candidate
+        match = re.search(r"(?m)^(?:> )?- Fact ID[：:]\s*`?(fact-[A-Za-z0-9_-]+)`?\s*$", text)
+        if match:
+            by_id.setdefault(match[1], []).append(path)
+        if "fact-" in text:
+            occupied.add(path)
+    return by_id, occupied
+
+
+def _projection_path(fact: Fact, fact_dir: Path, by_id: dict[str, list[Path]], occupied: set[Path]) -> Path:
+    candidate = fact_dir / _safe_filename(fact.title, fact.fact_id)
+    matches = by_id.get(fact.fact_id)
     if matches:
-        return matches[0]
-    if not candidate.exists():
-        return candidate
-    existing = candidate.read_text(encoding="utf-8")
-    if "fact-" not in existing:
-        return candidate
-    return fact_dir / f"{candidate.stem} ({fact.fact_id[:8]}).md"
+        return candidate if candidate in matches else matches[0]
+    path = candidate
+    if path in occupied:
+        path = fact_dir / f"{candidate.stem} ({fact.fact_id[:8]}).md"
+        suffix = 2
+        while path in occupied:
+            path = fact_dir / f"{candidate.stem} ({fact.fact_id}-{suffix}).md"
+            suffix += 1
+    occupied.add(path)
+    by_id[fact.fact_id] = [path]
+    return path
 
 
-def _sync_projection(fact: Fact, fact_dir: Path, sync_time: str, apply: bool) -> tuple[Path, str, bool]:
-    path = _projection_path(fact, fact_dir)
-    old = path.read_text(encoding="utf-8") if path.exists() else None
+def _sync_projection(fact: Fact, path: Path, sync_time: str, apply: bool) -> tuple[str, bool]:
+    old = path.read_text(encoding="utf-8") if path.exists() else ""
+    body = _canonical_body(fact)
+    meta_start = old.find(SYNC_BEGIN)
+    meta_end = old.find(SYNC_END, meta_start)
+    old_meta = old[meta_start:meta_end + len(SYNC_END)] if meta_start >= 0 and meta_end >= 0 else ""
+    timestamp = re.search(r"(?m)^- 最后同步时间：([^\n]+)$", old_meta)
+    if timestamp and body in old and old_meta == _metadata_block(fact, timestamp[1]):
+        return "unchanged", False
+    if not apply:
+        return "would update", True
     metadata = _metadata_block(fact, sync_time)
-    canonical_stale = (
-        old is None
-        or SYNC_BEGIN not in (old or "")
-        or any(line not in (old or "") for line in _canonical_metadata(fact))
-        or _canonical_body(fact) not in (old or "")
-    )
     residual = old or ""
     residual = re.sub(rf"\n?{re.escape(CANONICAL_BEGIN)}.*?{re.escape(CANONICAL_END)}\n?", "\n", residual, flags=re.DOTALL)
     residual = re.sub(rf"\n?## Canonical Fact 正文\s*\n?", "\n", residual)
     residual = re.sub(rf"\n?## Orpheus 同步元数据\s*\n?{re.escape(SYNC_BEGIN)}.*?{re.escape(SYNC_END)}\n?", "\n", residual, flags=re.DOTALL)
     residual = residual.strip()
-    if residual and not re.search(r"用户批注|用户备注|批注|历史投影", residual):
-        residual = ""
-    updated = _canonical_body(fact) + "\n\n"
+    # Text outside the generated blocks belongs to the reader, including unlabelled notes.
+    residual = residual.removeprefix("## 历史投影/用户批注（非正式 Fact 正文）").lstrip()
+    updated = body + "\n\n"
     if residual:
         updated += "## 历史投影/用户批注（非正式 Fact 正文）\n\n" + residual + "\n\n"
     updated += "## Orpheus 同步元数据\n" + metadata + "\n"
-    if apply and updated != old:
-        path.write_text(updated, encoding="utf-8", newline="\n")
-    return path, "updated" if updated != old else "unchanged", canonical_stale
+    path.write_text(updated, encoding="utf-8", newline="\n")
+    return "updated", True
 
 
 def _problem_dirs(workspace: Path) -> list[Path]:
@@ -284,7 +283,7 @@ def _paper_metadata_issues(
     for sidecar in sorted(papers.rglob("*.md")):
         text = sidecar.read_text(encoding="utf-8", errors="replace")
         storage_mode = _frontmatter_value(text, "storage_mode")
-        if storage_mode == "manual_original":
+        if storage_mode in {"metadata_only", "manual_original"}:
             paper_file = _frontmatter_value(text, "paper_file")
             if paper_file:
                 paper_path = sidecar.parent / paper_file
@@ -297,6 +296,9 @@ def _paper_metadata_issues(
                 )
                 paper_path = candidates[0] if candidates else None
             relative_sidecar = sidecar.relative_to(workspace)
+            expected_hash = _frontmatter_value(text, "sha256")
+            if paper_path is None and storage_mode == "metadata_only" and not expected_hash:
+                continue
             if paper_path is None or not paper_path.is_file():
                 issues.append(f"MISSING_MANUAL_ORIGINAL: {relative_sidecar}")
                 continue
@@ -305,19 +307,23 @@ def _paper_metadata_issues(
             except OSError:
                 issues.append(f"PAPER_HASH_UNREADABLE: {relative_sidecar}")
                 continue
-            expected_hash = _frontmatter_value(text, "sha256")
-            if not expected_hash:
-                if apply:
-                    updated = _set_frontmatter_value(text, "sha256", actual_hash)
-                    if updated != text:
-                        sidecar.write_text(updated, encoding="utf-8", newline="\n")
-                        actions.append(f"generated paper integrity metadata {relative_sidecar}")
-                    expected_hash = actual_hash
-                else:
-                    issues.append(f"PAPER_HASH_NOT_GENERATED: {relative_sidecar}")
-                    continue
-            if actual_hash != expected_hash:
+            if expected_hash and actual_hash != expected_hash:
                 issues.append(f"PAPER_HASH_MISMATCH: {relative_sidecar}")
+                continue
+            if not apply:
+                if not expected_hash:
+                    issues.append(f"PAPER_HASH_NOT_GENERATED: {relative_sidecar}")
+                continue
+            updated = text
+            if not expected_hash:
+                updated = _set_frontmatter_value(updated, "sha256", actual_hash)
+            if storage_mode == "metadata_only":
+                updated = _set_frontmatter_value(updated, "storage_mode", "manual_original")
+                if _frontmatter_value(text, "source_mode") == "metadata_only":
+                    updated = _set_frontmatter_value(updated, "source_mode", "manual_original")
+            if updated != text:
+                sidecar.write_text(updated, encoding="utf-8", newline="\n")
+                actions.append(f"updated paper integrity metadata {relative_sidecar}")
             continue
         if "zotero_item_key:" not in text:
             continue
@@ -521,9 +527,11 @@ def sync_workspace(
         if not (research / "研究索引.md").exists():
             issues.append("MISSING_FILE: Orpheus研究/研究索引.md")
     if fact_dir.exists():
+        by_id, occupied = _projection_catalog(fact_dir)
         projection_paths: list[Path] = []
         for fact in facts:
-            path, state, canonical_stale = _sync_projection(fact, fact_dir, sync_time, apply)
+            path = _projection_path(fact, fact_dir, by_id, occupied)
+            state, canonical_stale = _sync_projection(fact, path, sync_time, apply)
             projection_paths.append(path)
             if apply:
                 display_state = state
@@ -541,8 +549,10 @@ def sync_workspace(
         if incremental:
             expected_fact_index = _incremental_fact_index(fact_index, facts[0], projection_paths[0])
         if expected_fact_index is None:
-            all_facts = discover_facts(repo_root)
-            all_paths = [_projection_path(fact, fact_dir) for fact in all_facts]
+            all_facts, all_paths = facts, projection_paths
+            if incremental:
+                all_facts = discover_facts(repo_root)
+                all_paths = [_projection_path(fact, fact_dir, by_id, occupied) for fact in all_facts]
             expected_fact_index = _fact_index_block([
                 f"- [[{path.stem}]] — {fact.fact_id} v{fact.version}，{fact.status} / {fact.evidence_level}"
                 for fact, path in zip(all_facts, all_paths)

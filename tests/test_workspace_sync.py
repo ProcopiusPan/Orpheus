@@ -221,6 +221,42 @@ def test_check_detects_canonical_projection_change_but_ignores_sync_clock(tmp_pa
     assert any(action.startswith("would update Fact projection") for action in result["actions"])
 
 
+def test_full_sync_reuses_catalog_and_does_not_write_unchanged_notes(tmp_path, monkeypatch):
+    repo = _fact_repo(tmp_path)
+    for seed in ("d", "e"):
+        _add_fact(repo, f"fact-test-{seed}", "A test Fact", seed)
+    workspace = tmp_path / "workspace"
+    sync_workspace(workspace, repo, apply=True, sync_time="first")
+    folder = workspace / "Orpheus研究/Fact参考"
+    pages = set(folder.glob("A test Fact*.md"))
+    assert len(pages) == 3
+    annotated = folder / "A test Fact.md"
+    with annotated.open("a", encoding="utf-8") as note:
+        note.write("\nA marginal question.\n")
+    reads, writes = [], []
+    original_read, original_write = Path.read_text, Path.write_text
+
+    def read(path, *args, **kwargs):
+        reads.append(path)
+        return original_read(path, *args, **kwargs)
+
+    def write(path, *args, **kwargs):
+        writes.append(path)
+        return original_write(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", read)
+    monkeypatch.setattr(Path, "write_text", write)
+    again = sync_workspace(workspace, repo, apply=True, sync_time="second")
+    assert again["status"] == "PASS" and not writes
+    assert all(reads.count(page) <= 2 for page in pages)
+    changed_id = next(f.fact_id for f in discover_facts(repo) if f.fact_id in original_read(annotated))
+    _add_fact_version(repo, changed_id, 2, "Revised title", "f")
+    writes.clear()
+    sync_workspace(workspace, repo, apply=True, sync_time="third")
+    assert set(writes) == {annotated, folder / "Fact索引.md"}
+    assert "A marginal question." in annotated.read_text(encoding="utf-8")
+
+
 def test_workspace_sync_updates_revoked_fact_status(tmp_path):
     repo = _fact_repo(tmp_path)
     workspace = tmp_path / "workspace"

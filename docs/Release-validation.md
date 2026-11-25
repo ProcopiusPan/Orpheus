@@ -1,5 +1,12 @@
 # Release validation
 
+## 0.1.4 — 2026-11-25
+
+- Source regression suite: 82 passed, 1 skipped. The skipped test requires installed MCP configuration.
+- All three Skills passed structural validation. The article and monograph TeX templates compiled from separate directories using their bundled bibliographies.
+- The scheduled route review uses a Codex conversation heartbeat. An active turn in the coordinating chat can defer delivery. On-demand literature tasks and checkpoint dispatch are available during research.
+- This release validates software, packaging and documentation. Live hourly dispatch and goal-pause cleanup are not covered by the regression suite.
+
 ## 0.1.3 — 2026-10-25
 
 - This update changes research guidance, role templates and public release metadata. The Fact service, review protocol and installer behavior are unchanged.

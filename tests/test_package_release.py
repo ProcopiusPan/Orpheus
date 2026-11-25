@@ -150,7 +150,7 @@ def test_portable_installer_rejects_remote_credentials_before_writes(tmp_path):
 def test_portable_installer_real_temp_install_without_network(tmp_path):
     if os.name != "nt":
         return
-    pwsh = shutil.which("pwsh") or shutil.which("powershell")
+    pwsh = shutil.which("powershell") or shutil.which("pwsh")
     if not pwsh:
         return
     package = tmp_path / "package"
@@ -176,6 +176,10 @@ def test_portable_installer_real_temp_install_without_network(tmp_path):
     assert (target / "facts/README.md").exists()
     assert (target / "facts/MANIFEST.json").exists()
     assert not list((target / "facts").glob("fact-*"))
+    plugin_manifest = Path("plugins/orpheus/.codex-plugin/plugin.json")
+    installed_plugin = json.loads((target / plugin_manifest).read_text(encoding="utf-8-sig"))
+    source_plugin = json.loads((ROOT / plugin_manifest).read_text(encoding="utf-8-sig"))
+    assert installed_plugin["interface"] == source_plugin["interface"]
     mcp = json.loads((target / "plugins/orpheus/.mcp.json").read_text(encoding="utf-8-sig"))
     command = Path(mcp["mcpServers"]["orpheus-fact"]["command"])
     script = Path(mcp["mcpServers"]["orpheus-fact"]["args"][0])

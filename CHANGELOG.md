@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.4 — 2026-11-25
+
+- Use fixed project chats for general theory, delegated computations and periodic literature-and-route reviews. Keep on-demand literature tasks and return review decisions directly to the coordinating chat.
+- Review progress toward the mathematical goal, the strength of computation evidence, route blind spots, overlooked literature, cross-field methods, and a precise conjecture for the next step.
+- Require an explicit scope and time budget before adopting a proof strategy based on batch search.
+- Add a rebuildable Fact search index and support direct-dependent queries.
+- Bundle article and chapter-based monograph TeX templates. Apply the same accepted-Fact evidence checks when drafting and revising.
+- Read installer JSON as UTF-8 so Windows PowerShell 5.1 preserves multilingual plugin metadata.
+
 ## 0.1.3 — 2026-10-25
 
 - Read closely related original papers, reconstruct their motivations and proof mechanisms, and combine them with current results for generalization, strengthening and unification.

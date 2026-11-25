@@ -1,0 +1,54 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{booktabs,array,enumitem,xcolor}
+\usepackage[expansion=false]{microtype}
+\usepackage[pdfusetitle,colorlinks=true,linkcolor=blue!50!black,
+  citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{A General Mathematical Article}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+\begin{abstract}
+State the question, the main result, its hypotheses, and the limits of the result.
+\end{abstract}
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\section{Introduction}\label{sec:introduction}
+Introduce the central question and the result of Section~\ref{sec:main}. A sample citation is \cite{lamport}.
+
+\section{Main result}\label{sec:main}
+\begin{definition}
+An object is a structure satisfying the hypotheses specified in the statement below.
+\end{definition}
+
+\begin{theorem}
+Under the stated hypotheses, the construction has the claimed property.
+\end{theorem}
+
+\begin{proof}
+Replace this proof by the complete argument, including all quantifiers and assumptions.
+\end{proof}
+
+\section{Conclusion}\label{sec:conclusion}
+Record the scope, examples, and remaining questions without enlarging the theorem.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

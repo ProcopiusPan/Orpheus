@@ -114,14 +114,14 @@ if (-not $SkipPluginInstall) {
     if ($marketplaceExists) {
         if (-not (Test-Path $marketplacePath -PathType Leaf)) { throw "Marketplace path is not a file" }
         $marketplaceOriginalBytes = [IO.File]::ReadAllBytes($marketplacePath)
-        try { $marketplace = Get-Content $marketplacePath -Raw | ConvertFrom-Json }
+        try { $marketplace = Get-Content -LiteralPath $marketplacePath -Raw -Encoding UTF8 | ConvertFrom-Json }
         catch { throw "Existing marketplace is not valid JSON" }
         if ($marketplace.name -ne "personal") { throw "Existing marketplace is not personal; refusing to overwrite" }
         if (@($marketplace.plugins | Where-Object { $_.name -eq $PluginName }).Count -gt 0) {
             throw "personal marketplace already contains $PluginName"
         }
     } else {
-        $marketplace = Get-Content (Join-Path $packageRoot "marketplace/marketplace.json") -Raw | ConvertFrom-Json
+        $marketplace = Get-Content -LiteralPath (Join-Path $packageRoot "marketplace/marketplace.json") -Raw -Encoding UTF8 | ConvertFrom-Json
         if ($marketplace.name -ne "personal") { throw "Packaged marketplace must be personal" }
         if ($PluginName -ne "orpheus") {
             $marketplace.plugins = @($marketplace.plugins | Where-Object { $_.name -ne "orpheus" })
@@ -160,7 +160,7 @@ try {
             Move-Item -LiteralPath $projectPluginSource -Destination $projectPluginPath
         }
         $pluginManifestPath = Join-Path $projectPluginPath ".codex-plugin/plugin.json"
-        $pluginManifest = Get-Content $pluginManifestPath -Raw | ConvertFrom-Json
+        $pluginManifest = Get-Content -LiteralPath $pluginManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
         $pluginManifest.name = $PluginName
         if ($PluginName -ne "orpheus") {
             $pluginManifest.version = "$($pluginManifest.version).$PluginName"

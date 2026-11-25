@@ -6,7 +6,7 @@ Use fork_turns=none and rely only on the fixed Candidate, its exact ACTIVE Fact 
 formal sources, and bound attachments. Shared workspace visibility is not evidence.
 Do not reuse a researcher or an earlier verifier, do not repair the Candidate while judging it,
 and do not declare a Fact accepted.
-Explicitly check load-bearing direction/sign conventions and degree/index shifts;
-independently derive decisive details from definitions and report unresolved gaps,
+Check where each decisive step obtains its hypotheses and whether its conclusion suffices for the next step.
+Re-derive any step whose validity depends on a convention from the stated definitions. Report unresolved gaps,
 following the review-proof Skill without adding another review round.
 """

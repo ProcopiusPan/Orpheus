@@ -318,6 +318,38 @@ def test_admin_revert_defaults_to_dry_run(git_store, capsys):
     assert git_store._git(["rev-parse", "HEAD"]) == head_before
 
 
+def test_search_ranks_sections_and_refreshes_exact_reverse_dependencies(git_store):
+    def admit(request, candidate):
+        git_store.submit(request, candidate)
+        git_store.record_review(candidate.digest(), make_review(candidate))
+        result = git_store.accept(candidate.digest())
+        return FactRef(fact_id=result["fact_id"], version=result["version"])
+
+    base = admit("base", make_candidate("Kernel estimate"))
+    revised = admit("revision", make_candidate("Revised estimate").model_copy(update={"revises": base}))
+    theorem = admit("statement", Candidate(title="Filtered theorem", statement="A kernel admits the stated bound.",
+                                           assumptions="", proof="By construction.", dependencies=(base,)))
+    observation = admit("proof", Candidate(title="Auxiliary lemma", statement="This map exists.",
+                                           assumptions="", proof="Apply the kernel estimate for the bound.",
+                                           dependencies=(revised,)))
+    hits = git_store.search("BOUND kernel", 2)
+    assert [(h["fact_id"], h["matched_field"]) for h in hits] == [
+        (theorem.fact_id, "statement"), (observation.fact_id, "proof")]
+    assert "kernel" in hits[0]["snippet"]
+    assert [h["fact_id"] for h in git_store.search("", depends_on=base)] == [theorem.fact_id]
+    assert [h["fact_id"] for h in git_store.search("bound", depends_on=revised)] == [observation.fact_id]
+    other_connection = GitFactStore(git_store.root)
+    accepted_tree = git_store._git(["rev-parse", "HEAD"])
+    git_store.revoke(base, "test invalidation")
+    assert not other_connection.search("", depends_on=base)
+    assert [h["fact_id"] for h in other_connection.search("bound kernel")] == [observation.fact_id]
+    git_store._git(["checkout", "--detach", accepted_tree])
+    assert other_connection.search("bound", depends_on=base)[0]["fact_id"] == theorem.fact_id
+    cache = git_store.root / ".runtime" / "fact-search.sqlite"
+    cache.unlink()
+    assert git_store.search("bound kernel", 1)[0]["fact_id"] == theorem.fact_id
+
+
 def test_manifest_hash_and_rebuildable_sqlite_index(git_store, tmp_path):
     candidate = make_candidate()
     git_store.submit("request", candidate)

@@ -1,0 +1,56 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{booktabs,array,longtable,enumitem,xcolor}
+\usepackage[expansion=false]{microtype}
+\usepackage[pdfusetitle,colorlinks=true,linkcolor=blue!50!black,
+  citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{A General Mathematical Monograph}
+\author{Author Name}
+\date{\today}
+
+\input{book-layout}
+\setcounter{tocdepth}{1}
+
+\begin{document}
+\begin{abstract}
+State the scope of the monograph and the principal result, with its hypotheses.
+\end{abstract}
+\bookfrontmatter
+\tableofcontents
+\bookmainmatter
+
+\chapter{Foundations}{Sections~\ref*{sec:definitions}--\ref*{sec:main}}{\ref*{sec:definitions} & Definitions and setup\\\ref*{sec:main} & Main structural result}
+\section{Definitions}\label{sec:definitions}
+\begin{definition}An object is a structure satisfying the stated hypotheses.\end{definition}
+\section{Main result}\label{sec:main}
+\begin{theorem}Under the stated hypotheses, the construction has the claimed property.\end{theorem}
+\begin{proof}Replace this proof by the complete argument.\end{proof}
+
+\chapter{Examples}{Section~\ref*{sec:example}}{\ref*{sec:example} & A worked example}
+\section{A worked example}\label{sec:example}
+The bibliography mechanism is shared with the article template: see \cite{lamport}.
+
+\bookbackmatter
+\appendix
+\section{Supplementary details}
+Record details that support, but do not replace, the main proof.
+\clearpage
+\markboth{References}{References}
+\thispagestyle{plain}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
